@@ -6,11 +6,11 @@
 
 /*jslint nomen:true, node:true*/
 /*jshint esnext:true*/
-/*global */
 
 import PhotoModel from 'models/photo';
 import {ModelList} from 'model-list';
 import {Base} from 'base-build';
+/*jshint unused:false*/
 import {YQL} from 'yql';
 
 var PhotosModelList = Base.create('photos-model', ModelList, [], {
@@ -54,7 +54,6 @@ var PhotosModelList = Base.create('photos-model', ModelList, [], {
     search: function (search, start, count, callback) {
 
         var my = this,
-            photos,
             select;
 
         search = search || 'mojito';
@@ -72,10 +71,12 @@ var PhotosModelList = Base.create('photos-model', ModelList, [], {
 console.warn('using mock data for query: ' + select);
 return callback(null, my._process(search, this.photosMock()));
 
-        YQL(select, function (raw) {
-            photos = my._process(search, raw);
-            callback(null, photos);
-        });
+        // NOTE Uncomment me to use live data
+        //
+        // YQL(select, function (raw) {
+        //     var photos = my._process(search, raw);
+        //     callback(null, photos);
+        // });
 
     },
 
