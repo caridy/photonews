@@ -6,7 +6,6 @@
 
 /*jslint nomen:true*/
 /*jshint esnext:true*/
-/*global */
 
 import {Model} from 'model';
 import {Base} from 'base-build';

@@ -11,6 +11,7 @@
 import {ModelList} from 'model-list';
 import PostModel from 'models/post';
 import {Base} from 'base-build';
+/*jshint unused:false*/
 import {YQL} from 'yql';
 import {Lang} from 'yui';
 
@@ -61,7 +62,6 @@ var NewsModelList = Base.create('news-model', ModelList, [], {
     search: function (search, start, count, callback) {
 
         var my = this,
-            articles,
             select;
 
         search = search || 'senate';
@@ -79,10 +79,12 @@ var NewsModelList = Base.create('news-model', ModelList, [], {
 console.warn('using mock data for query: ' + select);
 return callback(null, my._process(search, this.newsMock()));
 
-        YQL(select, function (raw) {
-            articles = my._process(search, raw);
-            callback(null, articles);
-        });
+        // NOTE Uncomment me to use live data
+        //
+        // YQL(select, function (raw) {
+        //     var articles = my._process(search, raw);
+        //     callback(null, articles);
+        // });
 
     },
 
@@ -118,6 +120,7 @@ return callback(null, my._process(search, this.newsMock()));
                             "url": "http://yahoo.tumblr.com/post/67373852814",
                             "url-with-slug": "http://yahoo.tumblr.com/post/67373852814/our-commitment-to-protecting-your-information",
                             "regular-title": "Our Commitment to Protecting Your Information",
+                            /*jshint -W101*/
                             "regular-body": "<p><em>by Marissa Mayer, Yahoo CEO</em></p>\n<p>We’ve worked hard over the years to earn our users’ trust and we fight hard to preserve it.</p>\n<p>As you know, there have been a number of reports over the last six months about the U.S. government secretly accessing user data without the knowledge of tech companies, including Yahoo. I want to reiterate what we have said in the past: Yahoo has never given access to our data centers to the NSA or to any other government agency. Ever.</p>\n<p>There is nothing more important to us than protecting our users’ privacy. To that end, we recently announced that we will make Yahoo Mail even more secure by introducing https (SSL - Secure Sockets Layer) encryption with a 2048-bit key across our network by January 8, 2014.</p>\n<p>Today we are announcing that we will extend that effort across <em><strong>all</strong></em> Yahoo products. More specifically this means we will:</p>\n<ul><li><strong><span>Encrypt all information that moves between our data centers by the end of Q1 2014;</span></strong></li>\n<li><strong><span>Offer users an option to encrypt all data flow to/from Yahoo by the end of Q1 2014;</span></strong></li>\n<li><span><strong>Work closely with our international Mail partners to ensure that Yahoo co-branded Mail accounts are https-enabled</strong>.</span></li>\n</ul><p><span>As we have said before, we will continue to evaluate how we can protect our users’ privacy and their data. We appreciate, and certainly do not take for granted, the trust our users place in us.</span></p>",
                             "tag": ["yahoo", "privacy", "security"]
                         }, {

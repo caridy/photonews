@@ -5,14 +5,14 @@
  */
 
 /*jslint nomen:true, browser:true*/
-/*global DATA, YUI*/
+/*jshint esnext:true*/
 
 // classes
 import ControllerNews from 'controllers/news';
 import ControllerPhotos from 'controllers/photos';
 
 import HandlerNews from 'handlers/news';
-import HandlerAbout from 'handlers/about';
+//import HandlerAbout from 'handlers/about';
 
 import ModelNews from 'models/news';
 import ModelPost from 'models/post';
