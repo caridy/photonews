@@ -1,43 +1,56 @@
-/*
- * Copyright (c) 2013, Yahoo! Inc.  All rights reserved.
- * Copyrights licensed under the New BSD License.
- * See the accompanying LICENSE.txt file for terms.
- */
-
 /*jslint nomen:true*/
 /*jshint esnext:true*/
 
 import PhotosModel from 'models/photos';
-import {extend} from 'oop';
+import {extend, merge} from 'oop';
 import {Base} from 'base-build';
 import {Promise} from 'promise';
 
 'use strict';
 
-var SearchController = Base.create('search-controller', Base, [], {
+var PhotoController = Base.create("photo-controller", Base, [], {
     initializer: function (config) {
         var modelClass  = this.get('modelClass'),
             name        = this.get('name'),
             model       = new modelClass(),
-            query       = config.query.q;
+            photoId     = config.id,
+            self        = this;
 
         this.set('model', model);
 
         this._promise = new Promise(function (fulfill, reject) {
             if (model.isNew ? !model.isNew() : (model.size() > 0)) {
-                fulfill(model.toJSON());
-                return;
+                fulfill(self.mergeData(model, photoId));
             }
 
-            model.load({name: name, query: query}, function (err) {
+            model.load({name: name}, function (err) {
                 if (err) {
-                    console.error('** ERROR **: search-controller.initializer() failed: %s', err);
+                    console.error('** ERROR **: photo-controller.initializer() failed: %s', err);
                     reject(err);
                     return;
                 }
-                fulfill(model.toJSON());
+
+                fulfill(self.mergeData(model, photoId));
             });
         });
+    },
+
+    mergeData: function (model, id) {
+        var photo,
+            mergedPhoto;
+
+        photo = model.item(id);
+
+        if (photo) {
+            mergedPhoto = merge(photo.toJSON(), {
+                prev: +id - 1,
+                next: +id + 1 
+            });
+
+            return mergedPhoto;
+        }
+
+        return null;
     },
 
     then: function (fulfill, reject) {
@@ -57,4 +70,5 @@ var SearchController = Base.create('search-controller', Base, [], {
     }
 });
 
-export default SearchController;
+export default PhotoController;
+
